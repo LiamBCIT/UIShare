@@ -19,46 +19,56 @@ type EditProps = {
     postId: string;
     userId: string;
   }[];
+  isAuthenticated: boolean; // add this prop
 };
 
-export default function Post({ id, name, avatar, postTitle, comments, title }: EditProps) {
-  const [postToEdit, setPostToEdit] = useState('');
+export default function Post({
+  id,
+  name,
+  avatar,
+  postTitle,
+  comments,
+  title,
+  isAuthenticated, // add this prop
+}: EditProps) {
+  
+  const [postToEdit, setPostToEdit] = useState("");
   const [updatedPostTitle, setUptedPostTitle] = useState(postTitle);
- const [toggle, setToggle] = useState(false)
-  const queryClient = useQueryClient()
-  let deleteToastID: string
+  const [toggle, setToggle] = useState(false);
+  const queryClient = useQueryClient();
+  let deleteToastID: string;
+
   const deletePostMutation = useMutation(
-    async (id: string) =>
-      await axios.delete("/api/posts/deletePost", { data: id }),
+    async (id: string) => await axios.delete("/api/posts/deletePost", { data: id }),
     {
       onError: (error) => {
-        console.log(error)
+        console.log(error);
       },
       onSuccess: (data) => {
-        console.log(data)
-        queryClient.invalidateQueries(["posts"])
-        queryClient.invalidateQueries("getAuthPosts")
-        toast.success("Post has been deleted.", { id: deleteToastID })
+        console.log(data);
+        queryClient.invalidateQueries(["posts"]);
+        queryClient.invalidateQueries("getAuthPosts");
+        toast.success("Post has been deleted.", { id: deleteToastID });
       },
     }
-  )
+  );
 
   const editPost = useMutation(
     async (data: Comment) => {
-      return axios.patch("/api/posts/editPost", { data })
+      return axios.patch("/api/posts/editPost", { data });
     },
     {
       onSuccess: (res) => {
-        console.log('data==>>', res);
+        console.log("data==>>", res);
         // setCommentToEdit(data?.comments.find(c => c.id === commentToEdit)?.title);
-        setPostToEdit('');
-        queryClient.invalidateQueries(["posts"])
+        setPostToEdit("");
+        queryClient.invalidateQueries(["posts"]);
         //setTitle("");
         toast.success("Edited your comment");
-        window.location.reload()
+        window.location.reload();
       },
       onError: (error) => {
-        console.log('error==>>', error);
+        console.log("error==>>", error);
         /*console.log(error)
         setIsDisabled(false)
         if (error instanceof AxiosError) {
@@ -66,26 +76,26 @@ export default function Post({ id, name, avatar, postTitle, comments, title }: E
         }*/
       },
     }
-  ) 
+  );
 
   const deletePost = () => {
-    deleteToastID = toast.loading("Deleting your post.", { id: deleteToastID })
-    deletePostMutation.mutate(id)
-  }
+    deleteToastID = toast.loading("Deleting your post.", { id: deleteToastID });
+    deletePostMutation.mutate(id);
+  };
 
   const handleEditPost = (postId: string) => {
     if (postToEdit) {
-      console.log('ddd==>>', { updatedPostTitle, postId });
+      console.log("ddd==>>", { updatedPostTitle, postId });
       //mutate({ title, commentId });
-      const data:any = {
-        title:updatedPostTitle,
-        postId
-      }
+      const data: any = {
+        title: updatedPostTitle,
+        postId,
+      };
       editPost.mutate(data);
     } else {
       setPostToEdit(postId);
     }
-  }  
+  };
 
   return (
    <>
@@ -106,13 +116,13 @@ export default function Post({ id, name, avatar, postTitle, comments, title }: E
         <h3 className="font-medium text-white">{name}</h3>
       </div>
       <div className="my-8 ">
-      {postToEdit === id ? 
-          <input className="text-black" value={ updatedPostTitle} onChange={e => {
-            e.stopPropagation()
-            setUptedPostTitle(e.target.value)} }/> :
-          <div className="py-4 text-white">{postTitle}</div>}
-         
+        {postToEdit === id ? 
+            <input className="text-black" value={ updatedPostTitle} onChange={e => {
+              e.stopPropagation()
+              setUptedPostTitle(e.target.value)} }/> :
+            <div className="py-4 text-white">{postTitle}</div>}
       </div>
+
       <div className="flex gap-4 cursor-pointer items-center">
         <Link
           href={{
@@ -123,18 +133,17 @@ export default function Post({ id, name, avatar, postTitle, comments, title }: E
             {comments?.length} Comments
           </p>
         </Link>
-  
-        
-        <button className="text-white text-sm" onClick={() => handleEditPost(id)} >{postToEdit === id? 'Update' : 'Edit'}</button>
-        <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setToggle(true)
-            }}
-            className="text-sm font-medium text-white"
-          >
-            Delete
+
+          <button className="text-white text-sm" onClick={() => handleEditPost(id)}>{postToEdit === id ? 'Update' : 'Edit'}</button><button
+              onClick={(e) => {
+                e.stopPropagation();
+                setToggle(true);
+              } }
+              className="text-sm font-medium text-white"
+            >
+              Delete
           </button>
+
       </div>
     </motion.div>
   {toggle && <Toggle deletePost={deletePost} setToggle={setToggle} />}

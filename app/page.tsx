@@ -40,6 +40,10 @@ export default function Home() {
           comments={post.comments}
         />
       ))}
+      <h3 className="font-display font-regular text-1xl md:text-1xl text-center max-w-1xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 mt-6 pb-10">
+        <span className="block">Edit and Delete will only work if you're signed into your account</span>
+        <span className="block">Only your own posts are editable</span>
+      </h3>
     </div>
   )
 }
