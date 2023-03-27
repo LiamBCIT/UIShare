@@ -11,11 +11,18 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Toggle from "../../dashboard/Toggle";
 
+// type URL = {
+//   params: {
+//     slug: string;
+//   };
+//   searchParams: string;
+// };
+
 type URL = {
   params: {
     slug: string;
   };
-  searchParams: string;
+  searchParams?: string;
 };
 
 //Fetch All posts
