@@ -1,5 +1,6 @@
 "use client"
-import React,{useState} from 'react'
+
+import React, {useState} from 'react'
 import Post from "./Post"
 import AddPost from "./AddPost"
 import { useQuery } from "react-query"
@@ -18,8 +19,8 @@ export default function Home() {
     queryFn: allPosts,
     queryKey: ["posts"],
   })
-  if (error) return error
-  if (isLoading) return "Loading....."
+  if (error) return <div>{error}</div>
+  if (isLoading) return <div>Loading.....</div>
   return (
     <div>
       <div className="flex flex-col items-center justify-center mt-20 mb-16">
