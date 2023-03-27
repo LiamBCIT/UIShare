@@ -26,8 +26,7 @@ export default function MyPosts(): JSX.Element {
           avatar={data.image}
           name={data.name}
           title={post.title}
-          comments={post.comments}
-        />
+          comments={post.comments} postTitle={""}        />
       ))}
     </div>
   )

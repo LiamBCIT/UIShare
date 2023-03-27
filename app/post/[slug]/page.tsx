@@ -11,13 +11,6 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Toggle from "../../dashboard/Toggle";
 
-// type URL = {
-//   params: {
-//     slug: string;
-//   };
-//   searchParams: string;
-// };
-
 type URL = {
   params: {
     slug: string;
@@ -110,12 +103,11 @@ export default function PostDetail(url: URL) {
   return (
     <div>
       <Post
-        id={data?.id}
-        name={data?.user.name}
-        avatar={data?.user.image}
-        postTitle={data?.title}
-        comments={data?.comments}
-      />
+        id={data?.id!}
+        name={data?.user.name!}
+        avatar={data?.user.image!}
+        postTitle={data?.title!}
+        comments={data?.comments} title={""} isAuthenticated={false}      />
       <AddComment id={data?.id} />
       {data?.comments?.map((comment) => (
         <motion.div

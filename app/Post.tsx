@@ -14,6 +14,7 @@ type EditProps = {
   avatar: string;
   name: string;
   title: string;
+  postTitle: string;
   comments?: {
     id: string;
     postId: string;
