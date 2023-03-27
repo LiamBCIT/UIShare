@@ -19,7 +19,7 @@ export default function Home() {
     queryFn: allPosts,
     queryKey: ["posts"],
   })
-  if (error) return <div>{error}</div>
+  if (error) return <div></div>
   if (isLoading) return <div>Loading.....</div>
   return (
     <div>
