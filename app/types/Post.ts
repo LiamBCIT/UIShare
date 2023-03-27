@@ -1,3 +1,5 @@
+import { Key } from "react"
+
 export type PostType = {
   id: string
   title: string
